@@ -1,4 +1,4 @@
-package com.schovancova.lunchmate.login;
+package com.schovancova.lunchmate.login.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
@@ -16,15 +16,15 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.schovancova.lunchmate.LoginViewModel;
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.global.Snacker;
 import com.schovancova.lunchmate.global.Status;
+import com.schovancova.lunchmate.login.LoginViewModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignUp_Fragment extends Fragment implements OnClickListener {
+public class SignUp extends Fragment implements OnClickListener {
 	private EditText fullName, emailId, mobileNumber, location,
 			password, confirmPassword;
 	private TextView login;
@@ -32,7 +32,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private CheckBox terms_conditions;
 	private LoginViewModel model;
 
-	public SignUp_Fragment() {
+	public SignUp() {
 
 	}
 

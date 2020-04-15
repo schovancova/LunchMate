@@ -1,4 +1,4 @@
-package com.schovancova.lunchmate.login;
+package com.schovancova.lunchmate.login.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
@@ -14,21 +14,18 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.schovancova.lunchmate.LoginViewModel;
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.global.Snacker;
 import com.schovancova.lunchmate.global.Status;
+import com.schovancova.lunchmate.login.LoginViewModel;
 
-public class ForgotPassword_Fragment extends Fragment implements
+public class ForgotPassword extends Fragment implements
 		OnClickListener {
 
 	private LoginViewModel model;
 	private EditText emailId;
 	private TextView submit, back;
 
-	public ForgotPassword_Fragment() {
-
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

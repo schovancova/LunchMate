@@ -1,4 +1,4 @@
-package com.schovancova.lunchmate.login;
+package com.schovancova.lunchmate.login.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,18 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.schovancova.lunchmate.LoginViewModel;
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.global.Status;
+import com.schovancova.lunchmate.login.LoginViewModel;
 
-public class Initial_Fragment extends Fragment implements OnClickListener {
-    private static View view;
-
-    private static Button loginButton;
-    private static Button RegisterButton;
+public class Initial extends Fragment implements OnClickListener {
     private LoginViewModel model;
 
-    public Initial_Fragment() { }
+    public Initial() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.initial_layout, container, false);
+        View view = inflater.inflate(R.layout.initial_layout, container, false);
         model = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
         initViews(view);
         return view;
@@ -33,10 +29,10 @@ public class Initial_Fragment extends Fragment implements OnClickListener {
 
     // Initiate Views
     private void initViews(View view) {
-        loginButton = view.findViewById(R.id.loginBtn);
+        Button loginButton = view.findViewById(R.id.loginBtn);
         loginButton.setOnClickListener(this::onClick);
 //
-        RegisterButton = view.findViewById(R.id.registerBtn);
+        Button RegisterButton = view.findViewById(R.id.registerBtn);
         RegisterButton.setOnClickListener(this::onClick);
     }
 

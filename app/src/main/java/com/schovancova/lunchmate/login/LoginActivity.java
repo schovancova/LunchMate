@@ -1,16 +1,19 @@
-package com.schovancova.lunchmate;
+package com.schovancova.lunchmate.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.global.Status;
-import com.schovancova.lunchmate.login.ForgotPassword_Fragment;
-import com.schovancova.lunchmate.login.Initial_Fragment;
-import com.schovancova.lunchmate.login.Login_Fragment;
-import com.schovancova.lunchmate.login.SignUp_Fragment;
+import com.schovancova.lunchmate.listing.ListingActivity;
+import com.schovancova.lunchmate.login.fragments.ForgotPassword;
+import com.schovancova.lunchmate.login.fragments.Initial;
+import com.schovancova.lunchmate.login.fragments.Login;
+import com.schovancova.lunchmate.login.fragments.SignUp;
 
 public class LoginActivity extends AppCompatActivity {
 	private static FragmentManager fragmentManager;
@@ -33,25 +36,29 @@ public class LoginActivity extends AppCompatActivity {
 					fragmentManager
 						.beginTransaction()
 						.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-						.replace(R.id.frameContainer, new Initial_Fragment()).commit();
+						.replace(R.id.frameContainer, new Initial()).commit();
 					break;
 				case LOGIN:
 					fragmentManager
 							.beginTransaction()
 							.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-							.replace(R.id.frameContainer, new Login_Fragment()).commit();
+							.replace(R.id.frameContainer, new Login()).commit();
 					break;
 				case REGISTER:
 					fragmentManager
 							.beginTransaction()
 							.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-							.replace(R.id.frameContainer, new SignUp_Fragment()).commit();
+							.replace(R.id.frameContainer, new SignUp()).commit();
 					break;
 				case FORGOT_PASSWORD:
 					fragmentManager
 							.beginTransaction()
 							.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-							.replace(R.id.frameContainer, new ForgotPassword_Fragment()).commit();
+							.replace(R.id.frameContainer, new ForgotPassword()).commit();
+					break;
+				case LISTING:
+					Intent myIntent = new Intent(this, ListingActivity.class);
+					startActivity(myIntent);
 					break;
 			}
 		});

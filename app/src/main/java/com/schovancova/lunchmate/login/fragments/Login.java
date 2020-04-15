@@ -1,4 +1,4 @@
-package com.schovancova.lunchmate.login;
+package com.schovancova.lunchmate.login.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
@@ -25,15 +25,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.schovancova.lunchmate.LoginViewModel;
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.global.Snacker;
 import com.schovancova.lunchmate.global.Status;
+import com.schovancova.lunchmate.login.LoginViewModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Login_Fragment extends Fragment implements OnClickListener, OnCheckedChangeListener {
+public class Login extends Fragment implements OnClickListener, OnCheckedChangeListener {
     private View view;
 
     private EditText emailid, password;
@@ -46,7 +46,7 @@ public class Login_Fragment extends Fragment implements OnClickListener, OnCheck
     private LoginViewModel model;
 
 
-    public Login_Fragment() {
+    public Login() {
 
     }
 
@@ -113,7 +113,8 @@ public class Login_Fragment extends Fragment implements OnClickListener, OnCheck
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                checkValidation();
+                //checkValidation();
+                model.setStatus(Status.LISTING);
                 break;
 
             case R.id.forgot_password:
