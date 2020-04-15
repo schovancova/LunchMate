@@ -20,15 +20,15 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.schovancova.lunchmate.LoginViewModel;
 import com.schovancova.lunchmate.R;
-import com.schovancova.lunchmate.global.CustomToast;
-import com.schovancova.lunchmate.global.FragmentChanger;
-import com.schovancova.lunchmate.global.Utils;
+import com.schovancova.lunchmate.global.Snacker;
+import com.schovancova.lunchmate.global.Status;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,14 +36,15 @@ import java.util.regex.Pattern;
 public class Login_Fragment extends Fragment implements OnClickListener, OnCheckedChangeListener {
     private View view;
 
-    private static EditText emailid, password;
-    private static Button loginButton;
-    private static TextView forgotPassword, signUp;
-    private static CheckBox show_hide_password;
-    private static LinearLayout loginLayout;
-    private static Animation shakeAnimation;
-    private static FragmentManager fragmentManager;
-    private static FragmentChanger fragmentChanger;
+    private EditText emailid, password;
+    private Button loginButton;
+    private TextView forgotPassword, signUp;
+    private CheckBox show_hide_password;
+    private LinearLayout loginLayout;
+    private Animation shakeAnimation;
+    private FragmentManager fragmentManager;
+    private LoginViewModel model;
+
 
     public Login_Fragment() {
 
@@ -53,6 +54,7 @@ public class Login_Fragment extends Fragment implements OnClickListener, OnCheck
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_layout, container, false);
+        model = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
         initViews(view);
         setListeners();
         return view;
@@ -61,7 +63,6 @@ public class Login_Fragment extends Fragment implements OnClickListener, OnCheck
     // Initiate Views
     private void initViews(View view) {
         fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentChanger = new FragmentChanger(fragmentManager);
         emailid =  view.findViewById(R.id.login_email);
         password = view.findViewById(R.id.login_password);
         loginButton = view.findViewById(R.id.loginBtn);
@@ -116,33 +117,30 @@ public class Login_Fragment extends Fragment implements OnClickListener, OnCheck
                 break;
 
             case R.id.forgot_password:
-                fragmentChanger.change_forgot_password();
+                model.setStatus(Status.FORGOT_PASSWORD);
                 break;
             case R.id.createAccount:
-                fragmentChanger.change_register();
+                model.setStatus(Status.REGISTER);
                 break;
         }
     }
 
     private void checkValidation() {
+        Snacker snacker = new Snacker();
         String getEmailId = emailid.getText().toString();
         String getPassword = password.getText().toString();
-        Pattern p = Pattern.compile(Utils.regEx);
+        Pattern p = Pattern.compile(model.regEx);
         Matcher m = p.matcher(getEmailId);
         if (getEmailId.equals("") || getEmailId.length() == 0
                 || getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
-            new CustomToast().Show_Toast(getActivity(), view,
-                    "Enter both credentials.");
-
+            snacker.make(getActivity(), "Enter both credentials");
         }
         else if (!m.find())
-            new CustomToast().Show_Toast(getActivity(), view,
-                    "Your email is invalid.");
+            snacker.make(getActivity(), "Email is invalid");
         else
             // TODO login
-            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
-                    .show();
+            snacker.make(getActivity(), "Logging in");
 
     }
 }

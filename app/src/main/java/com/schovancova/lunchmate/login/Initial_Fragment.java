@@ -8,21 +8,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.schovancova.lunchmate.MainActivity;
+import com.schovancova.lunchmate.LoginViewModel;
 import com.schovancova.lunchmate.R;
+import com.schovancova.lunchmate.global.Status;
 
 public class Initial_Fragment extends Fragment implements OnClickListener {
     private static View view;
 
     private static Button loginButton;
     private static Button RegisterButton;
+    private LoginViewModel model;
 
     public Initial_Fragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.initial_layout, container, false);
+        model = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
         initViews(view);
         return view;
     }
@@ -41,10 +45,10 @@ public class Initial_Fragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                new MainActivity().fragmentChanger.change_login();
+                model.setStatus(Status.LOGIN);
                 break;
             case R.id.registerBtn:
-                new MainActivity().fragmentChanger.change_register();
+                model.setStatus(Status.REGISTER);
                 break;
         }
     }
