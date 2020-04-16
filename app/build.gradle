@@ -47,6 +47,17 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation "com.google.android.material:material:1.2.0-alpha06"
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
+android {
+
+    defaultConfig {
+        buildConfigField("String", "GOOGLE_PLACES_API", apikeyProperties['GOOGLE_PLACES_API'])
+    }
 }

@@ -86,32 +86,23 @@ public class AppActivity extends AppCompatActivity implements ActivityCompat.OnR
 	}
 
 
-    public void startRestaurants() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED)
-        {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                    .replace(R.id.app_fragment_container, new Listing()).commit();
-        }
-    }
-
     public void showRestaurants(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            startRestaurants();
+			getSupportFragmentManager()
+					.beginTransaction()
+					.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+					.replace(R.id.app_fragment_container, new Listing()).commit();
         } else {
             requestLocationPermission();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST_LOCATION) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startRestaurants();
+                showRestaurants();
             } else {
                 snacker.make(this, "@strings/location_permission_denied");
             }
