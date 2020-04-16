@@ -76,7 +76,7 @@ public class Login extends Fragment implements OnClickListener, OnCheckedChangeL
                 R.anim.shake);
 
         // Setting text selector over textviews
-        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.login_text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
             forgotPassword.setTextColor(csl);
@@ -135,13 +135,13 @@ public class Login extends Fragment implements OnClickListener, OnCheckedChangeL
         if (getEmailId.equals("") || getEmailId.length() == 0
                 || getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
-            snacker.make(getActivity(), "Enter both credentials");
+            snacker.make(getActivity(), "@strings/both_credentials");
         }
         else if (!m.find())
-            snacker.make(getActivity(), "Email is invalid");
+            snacker.make(getActivity(), "@strings/password_invalid");
         else
             // TODO login
-            snacker.make(getActivity(), "Logging in");
+            snacker.make(getActivity(), "@strings/logging_in");
 
     }
 }

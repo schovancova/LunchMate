@@ -2,26 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_history"
-        android:icon="@drawable/history"
+        android:icon="@drawable/navb_history_icon"
         android:title="History" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/profile"
+        android:icon="@drawable/navb_profile_icon"
         android:title="Profile" />
 
     <item
         android:id="@+id/nav_hidden_option"
-        android:icon="@drawable/chat"
+        android:icon="@drawable/navb_map_icon"
         android:title="" />
 
     <item
         android:id="@+id/nav_chat"
-        android:icon="@drawable/chat"
+        android:icon="@drawable/navb_chat_icon"
         android:title="Chat" />
 
     <item
         android:id="@+id/nav_settings"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/navb_settings_icon"
         android:title="Settings" />
 
 </menu>

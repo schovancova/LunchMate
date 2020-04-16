@@ -59,7 +59,7 @@ public class SignUp extends Fragment implements OnClickListener {
 		terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
 
 		// Setting text selector over textviews
-		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.login_text_selector);
 		try {
 			ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
 			login.setTextColor(csl);
@@ -99,7 +99,7 @@ public class SignUp extends Fragment implements OnClickListener {
 		String getPassword = password.getText().toString();
 		String getConfirmPassword = confirmPassword.getText().toString();
 
-		// Pattern match for email id
+		// Pattern match for login_email id
 		Pattern p = Pattern.compile(model.regEx);
 		Matcher m = p.matcher(getEmailId);
 
@@ -111,15 +111,15 @@ public class SignUp extends Fragment implements OnClickListener {
 				|| getPassword.equals("") || getPassword.length() == 0
 				|| getConfirmPassword.equals("")
 				|| getConfirmPassword.length() == 0)
-			snacker.make(getActivity(), "All fields are required");
+			snacker.make(getActivity(), "@strings/all_fields");
 		else if (!m.find())
-			snacker.make(getActivity(), "Email is invalid");
+			snacker.make(getActivity(), "@strings/email_invalid");
 		else if (!getConfirmPassword.equals(getPassword))
-			snacker.make(getActivity(), "Passwords do not match");
+			snacker.make(getActivity(), "@strings/password_mismatch");
 		else if (!terms_conditions.isChecked())
-			snacker.make(getActivity(), "Please accept terms and conditions");
+			snacker.make(getActivity(), "@strings/terms_and_cond");
 		else
 			// TODO signup
-			snacker.make(getActivity(), "Signing up");
+			snacker.make(getActivity(), "@strings/signing_up");
 	}
 }

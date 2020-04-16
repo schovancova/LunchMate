@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.global.Status;
-import com.schovancova.lunchmate.listing.ListingActivity;
+import com.schovancova.lunchmate.app.AppActivity;
 import com.schovancova.lunchmate.login.fragments.ForgotPassword;
 import com.schovancova.lunchmate.login.fragments.Initial;
 import com.schovancova.lunchmate.login.fragments.Login;
@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_login_layout);
 		fragmentManager = getSupportFragmentManager();
 
 		// On close icon click finish activity
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 							.replace(R.id.frameContainer, new ForgotPassword()).commit();
 					break;
 				case LISTING:
-					Intent myIntent = new Intent(this, ListingActivity.class);
+					Intent myIntent = new Intent(this, AppActivity.class);
 					startActivity(myIntent);
 					break;
 			}

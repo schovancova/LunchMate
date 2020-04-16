@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "172523000841",
+    "firebase_url": "https://lunch-mate-935b2.firebaseio.com",
+    "project_id": "lunch-mate-935b2",
+    "storage_bucket": "lunch-mate-935b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172523000841:android:f00569cdec351ae99754d8",
+        "android_client_info": {
+          "package_name": "com.schovancova.lunchmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172523000841-oa2q42sn3djnr7k3d9jrg8rfi5tjqdmq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2N-tmnsm7WqRJRJj0Nck-m2eo9doEG6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172523000841-oa2q42sn3djnr7k3d9jrg8rfi5tjqdmq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

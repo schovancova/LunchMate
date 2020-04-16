@@ -52,7 +52,7 @@ public class ForgotPassword extends Fragment implements
 		});
 
 		// Setting text selector over textviews
-		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.login_text_selector);
 		try {
 			ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
 			back.setTextColor(csl);
@@ -84,9 +84,9 @@ public class ForgotPassword extends Fragment implements
 	private void submitButtonTask() {
 		Snacker snacker = new Snacker();
 		if (!model.validateEmail(emailId.getText().toString())) {
-			snacker.make(getActivity(), "Email is invalid");
+			snacker.make(getActivity(), "@strings/email_invalid");
 		} else {
-			snacker.make(getActivity(), "Password reset link sent");
+			snacker.make(getActivity(), "@strings/password_reset_success");
 		}
 	}
 }

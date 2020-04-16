@@ -19,7 +19,7 @@ android:versionName="1.0" >
         </intent-filter>
     </activity>
     <activity
-        android:name="com.schovancova.lunchmate.listing.ListingActivity">
+        android:name="com.schovancova.lunchmate.app.AppActivity">
     </activity>
 </application>
 
