@@ -1,21 +1,28 @@
 package com.schovancova.lunchmate.app;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.app.fragments.Listing;
 import com.schovancova.lunchmate.app.fragments.ToolbarFragment;
+import com.schovancova.lunchmate.global.Snacker;
 import com.schovancova.lunchmate.global.Status;
 
-public class AppActivity extends AppCompatActivity {
+public class AppActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private static final int PERMISSION_REQUEST_LOCATION = 0;
 	private AppModel model;
 	private BottomNavigationView bottom_nav;
+	private Snacker snacker;
 
 
 	@Override
@@ -23,27 +30,26 @@ public class AppActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_layout);
 		initClicks();
-
+		initToolbar();
+		snacker = new Snacker();
 		bottom_nav = findViewById(R.id.bottom_navigation_main);
 		model = new ViewModelProvider(this).get(AppModel.class);
-
-		getSupportFragmentManager()
-			.beginTransaction()
-			.replace(R.id.searchb_container, new ToolbarFragment()).commit();
-
 		model.setStatus(Status.LISTING);
 		model.getStatus().observe(this, status -> {
 			switch (status) {
 				case LISTING:
-					getSupportFragmentManager()
-						.beginTransaction()
-						.setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-						.replace(R.id.app_fragment_container, new Listing()).commit();
+                    showRestaurants();
 					break;
 			}
 		});
+
 	}
 
+	private void initToolbar() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.searchb_container, new ToolbarFragment()).commit();
+    }
 
 
 	private void initClicks() {
@@ -78,4 +84,50 @@ public class AppActivity extends AppCompatActivity {
 //				break;
 //		}
 	}
+
+
+    public void startRestaurants() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
+        {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                    .replace(R.id.app_fragment_container, new Listing()).commit();
+        }
+    }
+
+    public void showRestaurants(){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            startRestaurants();
+        } else {
+            requestLocationPermission();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_LOCATION) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startRestaurants();
+            } else {
+                snacker.make(this, "@strings/location_permission_denied");
+            }
+        }
+    }
+    private void requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            snacker.make(this, "@strings/location_permission_required");
+            ActivityCompat.requestPermissions(AppActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_REQUEST_LOCATION);
+        } else {
+            snacker.make(this,  "@strings/location_permission_incoming");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_REQUEST_LOCATION);
+        }
+    }
 }
