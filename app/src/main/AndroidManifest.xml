@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.schovancova.lunchmate"
-android:versionCode="1"
-android:versionName="1.0" >
+package="com.schovancova.lunchmate">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 <application
@@ -10,6 +8,7 @@ android:versionName="1.0" >
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     <activity
         android:name="com.schovancova.lunchmate.login.LoginActivity"
         android:label="@string/app_name" >

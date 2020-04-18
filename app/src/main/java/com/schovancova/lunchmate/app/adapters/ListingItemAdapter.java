@@ -1,18 +1,17 @@
 package com.schovancova.lunchmate.app.adapters;
 
+import android.graphics.Bitmap;
+
+import java.util.List;
+import java.util.Map;
+
 public class ListingItemAdapter {
-    private int image;
-    private String text;
-    public int getImage() {
-        return image;
-    }
-    public void setImage(int image) {
-        this.image = image;
-    }
-    public void setText(String text) {
-        this.text = text;
-    }
-    public String getText() {
-        return text;
-    }
+    public Bitmap image;
+    public String name;
+    public String open_now;
+    public float rating;
+    public float latitude;
+    public float longitude;
+    public List<Map<String, String>> photos;
+
 }

@@ -2,12 +2,12 @@ package com.schovancova.lunchmate.app.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.schovancova.lunchmate.R;
 import com.schovancova.lunchmate.app.AppModel;
 import com.schovancova.lunchmate.app.adapters.ListingAdapter;
@@ -25,7 +27,7 @@ import com.schovancova.lunchmate.global.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Listing extends Fragment implements OnClickListener {
+public class Listing extends Fragment {
     private AppModel model;
     private LocationManager lm;
     private RecyclerView mRecycleview;
@@ -37,48 +39,69 @@ public class Listing extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listing_layout, container, false);
         mRecycleview = view.findViewById(R.id.recycler_view);
-        addList();
-        adapter();
         model = new ViewModelProvider(getActivity()).get(AppModel.class);
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         int radius = 1000;
-        ArrayList<Restaurant> list = search(location, radius);
-        initViews(view);
+        search(location, radius);
         return view;
     }
 
-    // Initiate Views
-    private void initViews(View view) {
+
+    private void addList(ArrayList<Restaurant> restaurants) {
+        ListingItemAdapter itemAdapter;
+        for (int i = 0; i < restaurants.size(); i++) {
+            Restaurant r = restaurants.get(i);
+            itemAdapter = new ListingItemAdapter();
+            itemAdapter.name = r.getName();
+            if (r.getOpenNow()) itemAdapter.open_now = "open";
+            else itemAdapter.open_now = "closed";
+            itemAdapter.rating = r.getRating();
+            mList.add(itemAdapter);
+        }
+
+        adapter();
+    }
+
+    private void addPictures(ArrayList<Restaurant> restaurants) {
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        Locator locator = new Locator(queue);
+        for (int i = 0; i < restaurants.size(); i++) {
+            ListingItemAdapter itemAdapter = mList.get(i);
+            Restaurant r = restaurants.get(i);
+            int finalI = i;
+            locator.getPicture(new Locator.VolleyCallbackImg() {
+                @Override
+                public void onResponse(Object response) {
+                    int x = finalI;
+                    ListingItemAdapter la = mList.get(x);
+                    la.image = (Bitmap) response;
+                    mList.set(finalI, itemAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }, r.getPhotoReference());
+        }
 
     }
 
-    private void addList(){
-        ListingItemAdapter itemAdapter = new ListingItemAdapter();
-        itemAdapter.setImage(R.drawable.login_confirm_password);
-        itemAdapter.setText("Tomato");
-        mList.add(itemAdapter);
-    }
-
-    private void adapter(){
+    private void adapter() {
         mAdapter = new ListingAdapter(mList, getActivity());
         mRecycleview.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-        mRecycleview.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        mRecycleview.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
-    public ArrayList<Restaurant> search(Location l, int radius) {
-        Locator locator = new Locator(radius, l);
-        String restaurants = null;
-        try {
-            restaurants = locator.getNearest();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return model.parseRestaurants(restaurants);
+    public void search(Location l, int radius) {
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        Locator locator = new Locator(queue);
+        locator.getNearest(radius, l, new Locator.VolleyCallback() {
+            @Override
+            public void onSuccess(String data) {
+                ArrayList<Restaurant> restaurants = model.parseRestaurants(data);
+                addList(restaurants);
+                addPictures(restaurants);
+            }
+        });
     }
 }

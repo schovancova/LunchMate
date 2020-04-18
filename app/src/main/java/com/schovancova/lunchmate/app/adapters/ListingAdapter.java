@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,20 +32,27 @@ public class ListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         ListingItemAdapter itemAdapter = mList.get(position);
-        ((ViewHolder) viewHolder).mTv_name.setText(itemAdapter.getText());
-        ((ViewHolder) viewHolder).mImg.setImageResource(itemAdapter.getImage());
+        ((ViewHolder) viewHolder).view_name.setText(itemAdapter.name);
+        ((ViewHolder) viewHolder).view_image.setImageBitmap(itemAdapter.image);
+        ((ViewHolder) viewHolder).view_openness.setText(itemAdapter.open_now);
+        ((ViewHolder) viewHolder).view_rating.setRating(itemAdapter.rating);
+
     }
     @Override
     public int getItemCount() {
         return mList.size();
     }
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView mTv_name;
-        public ImageView mImg;
+        TextView view_name;
+        TextView view_openness;
+        ImageView view_image;
+        RatingBar view_rating;
         public ViewHolder(View itemView) {
             super(itemView);
-            mTv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            mImg = (ImageView) itemView.findViewById(R.id.img_item);
+            view_name = itemView.findViewById(R.id.tv_name);
+            view_openness =  itemView.findViewById(R.id.openness);
+            view_image =  itemView.findViewById(R.id.img_item);
+            view_rating = itemView.findViewById(R.id.ratingBar);
         }
     }
 }

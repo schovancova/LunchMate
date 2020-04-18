@@ -33,4 +33,5 @@
     <string name="location_permission_denied">Location permission request was denied</string>
     <string name="location_permission_required">Location access is required to display restaurants near you</string>
     <string name="location_permission_incoming">Location permission is not available, requesting</string>
+    <string name="open">open</string>
 </resources>
