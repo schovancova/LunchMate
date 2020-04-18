@@ -48,7 +48,7 @@ public class Listing extends Fragment {
     }
 
 
-    private void addList(ArrayList<Restaurant> restaurants) {
+    private void addList(ArrayList<Restaurant> restaurants, Location l) {
         ListingItemAdapter itemAdapter;
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant r = restaurants.get(i);
@@ -58,6 +58,12 @@ public class Listing extends Fragment {
             else itemAdapter.open_now = "closed";
             itemAdapter.rating = r.getRating();
             mList.add(itemAdapter);
+            Location locationA = new Location("");
+            locationA.setLatitude(r.getGeometry().get("lat"));
+            locationA.setLongitude(r.getGeometry().get("lng"));
+            int distance = (int) locationA.distanceTo(l);
+            itemAdapter.distance = distance + " m";
+            itemAdapter.vicinity = r.getVicinity();
         }
 
         adapter();
@@ -66,7 +72,7 @@ public class Listing extends Fragment {
     private void addPictures(ArrayList<Restaurant> restaurants) {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         Locator locator = new Locator(queue);
-        for (int i = 0; i < restaurants.size(); i++) {
+        for (int i = 0; i < 2; i++) {
             ListingItemAdapter itemAdapter = mList.get(i);
             Restaurant r = restaurants.get(i);
             int finalI = i;
@@ -85,7 +91,7 @@ public class Listing extends Fragment {
     }
 
     private void adapter() {
-        mAdapter = new ListingAdapter(mList, getActivity());
+        mAdapter = new ListingAdapter(mList);
         mRecycleview.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         mRecycleview.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
@@ -99,7 +105,7 @@ public class Listing extends Fragment {
             @Override
             public void onSuccess(String data) {
                 ArrayList<Restaurant> restaurants = model.parseRestaurants(data);
-                addList(restaurants);
+                addList(restaurants, l);
                 addPictures(restaurants);
             }
         });

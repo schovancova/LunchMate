@@ -1,6 +1,7 @@
 package com.schovancova.lunchmate.global;
 
 import java.util.List;
+import java.util.Map;
 
 class Photo {
     public int height;
@@ -13,25 +14,25 @@ class OpeningHours {
     public Boolean open_now;
 }
 
+class Geometry {
+    public Map<String, Float> location;
+    public Map<String, Map<String, Float>> viewport;
+}
+
 public class Restaurant {
-    private String reference;
     private String name;
-    private String icon;
     private OpeningHours opening_hours;
     private float rating;
     private List<Photo> photos;
+    private String vicinity;
 
-    public String getReference() {
-        return reference;
-    }
+
+    private Geometry geometry;
 
     public String getName() {
         return name;
     }
 
-    public String getIcon() {
-        return icon;
-    }
 
     public Boolean getOpenNow() {
         if (opening_hours != null) return opening_hours.open_now;
@@ -42,6 +43,14 @@ public class Restaurant {
         return rating;
     }
 
+
+    public String getVicinity() {
+        return vicinity;
+    }
+
+    public Map<String, Float> getGeometry() {
+        return geometry.location;
+    }
 
     public String getPhotoReference() {
         return photos.get(0).photo_reference;
